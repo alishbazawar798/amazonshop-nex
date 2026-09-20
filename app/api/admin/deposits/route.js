@@ -10,7 +10,10 @@ export async function GET() {
     const auth = await requireAdmin();
 
     if (!auth.authorized) {
-      return auth.response;
+      return (
+        auth.response ||
+        NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+      );
     }
 
     await connectDB();
@@ -44,7 +47,10 @@ export async function PATCH(request) {
     const auth = await requireAdmin();
 
     if (!auth.authorized) {
-      return auth.response;
+      return (
+        auth.response ||
+        NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+      );
     }
 
     const body = await request.json();
